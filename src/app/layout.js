@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import 'flowbite';
 import { Hero } from "@/components/Hero";
-
+import CartContext from "@/context/CartContext"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,10 +16,12 @@ export default function RootLayout({ children }) {
     <>
       <html lang="en">
         <body className={inter.className}>
-          <Navbar />
-          <Hero />
-          {children}
-          {/* <Footer /> */}
+          <CartContext>
+            <Navbar />
+            <Hero />
+            {children}
+            {/* <Footer /> */}
+          </CartContext>
         </body>
 
       </html>

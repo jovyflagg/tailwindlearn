@@ -1,20 +1,60 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import 'flowbite';
+import { CartContext } from "@/context/CartContext";
+import { loadStripe } from "@stripe/stripe-js";
+import { FaShoppingCart } from 'react-icons/fa'
+import Link from "next/link";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const Navbar = () => {
-    useEffect(() => {
-        // Initialize Flowbite dropdown
-        const dropdowns = document.querySelectorAll('[data-collapse-toggle]');
-        dropdowns.forEach(dropdown => {
-          dropdown.addEventListener('click', () => {
-            const target = dropdown.getAttribute('aria-controls');
-            const targetElement = document.getElementById(target);
-            targetElement.classList.toggle('hidden');
-            targetElement.classList.toggle('block');
-          });
-        });
-      }, []);
+  let stripePromise;
+  const [stripeError, setStripeError] = useState(null);
+  const cart = useContext(CartContext);
+  useEffect(() => {
+    // Initialize Flowbite dropdown
+    const dropdowns = document.querySelectorAll('[data-collapse-toggle]');
+    dropdowns.forEach(dropdown => {
+      dropdown.addEventListener('click', () => {
+        const target = dropdown.getAttribute('aria-controls');
+        const targetElement = document.getElementById(target);
+        targetElement.classList.toggle('hidden');
+        targetElement.classList.toggle('block');
+      });
+    });
+  }, []); const getStripe = async () => {
+    if (!stripePromise) {
+      stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+    }
+    return stripePromise;
+  };
+
+  const goToCheckoutPage = async () => {
+
+    const checkoutOptions = {
+      lineItems: cart.items.map(({ price, quantity }) => ({
+        price,
+        quantity
+      })),
+      mode: "payment",
+      successUrl: `${window.location.origin}/success`,
+      cancelUrl: `${window.location.origin}/cancel`
+    };
+
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOptions);
+
+    if (error) setStripeError(error.message);
+  };
+
+  if (stripeError) alert(stripeError);
+
+  const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
+
+
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -31,6 +71,9 @@ const Navbar = () => {
             LoveLily
           </span>
         </a>
+        {/* {<Link href="/ordersummary"><FaShoppingCart /> ({productsCount}) </Link>} */}
+        {productsCount > 0 ? <Link href="/ordersummary" ><FaShoppingCart /> ({productsCount}) </Link> : null}
+
         <button
           data-collapse-toggle="navbar-default"
           type="button"
