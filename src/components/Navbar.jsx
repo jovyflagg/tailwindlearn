@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useContext, useEffect } from "react";
-import 'flowbite';
+import 'flowbite-react';
 import { CartContext } from "@/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { FaShoppingCart } from 'react-icons/fa'
