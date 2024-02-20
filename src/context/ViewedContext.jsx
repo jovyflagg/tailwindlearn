@@ -13,16 +13,24 @@ export function ViewedProvider({ children }) {
     const [viewedProducts, setViewedProducts] = useState([]);
 
     function addViewed(id, product) {
-        const newViewedProducts = [...viewedProducts];
-        const existingIndex = newViewedProducts.findIndex(item => item.id === id);
-
+        const existingIndex = viewedProducts.findIndex(item => item.id === id);
+    
         if (existingIndex !== -1) {
-            newViewedProducts.splice(existingIndex, 1);
+            // If the product already exists, move it to the front
+            const existingProduct = viewedProducts[existingIndex];
+            const newViewedProducts = [
+                existingProduct,
+                ...viewedProducts.slice(0, existingIndex),
+                ...viewedProducts.slice(existingIndex + 1)
+            ];
+            setViewedProducts(newViewedProducts);
+        } else {
+            // If the product doesn't exist, add it to the front
+            const newViewedProducts = [{ product }, ...viewedProducts];
+            setViewedProducts(newViewedProducts);
         }
-
-        newViewedProducts.unshift({ id, product });
-        setViewedProducts(newViewedProducts);
     }
+    
 
     function removeViewed(id) {
         const newViewedProducts = viewedProducts.filter(item => item.id !== id);

@@ -3,12 +3,14 @@
 import React from "react";
 import styles from "./productDetailsPage.module.css";
 import { useRouter } from "next/navigation";
+import RecentlyViewed from "@/components/RecentlyViewed";
 
-const ProductDetails = ({params}) => {
-    const router = useRouter();
-    const {id, image, name, price} = params;
+const ProductDetails = ({ params }) => {
+  const router = useRouter();
+  const { id, image, name, price } = params;
   return (
     <>
+     
       <div className={styles.container}>
         <div className={styles.topSection}>
           <div className={styles.productImageWrapper}>
@@ -23,7 +25,7 @@ const ProductDetails = ({params}) => {
             </div>
             {/* cta stands for call-to-action e.g. add to cart, add to favorites */}
             <div className={styles.cta}>
-             
+
               {/* 1-quantity counter, 2-Add to cart button  and/or add to favorites button*/}
             </div>
             <div className={styles.secondaryDetailsWrapper}>
@@ -46,6 +48,7 @@ const ProductDetails = ({params}) => {
           <div className={styles.recentlyViewed}></div>
         </div>
       </div>
+      <RecentlyViewed />
     </>
   );
 };
