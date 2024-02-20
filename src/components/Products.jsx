@@ -4,14 +4,15 @@ import React from "react";
 import Stripe from "stripe";
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import constants from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import { ViewedContext } from "@/context/ViewedContext";
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 const Products = () => {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const cart = useContext(CartContext);
+  const viewed = useContext(ViewedContext);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -32,9 +33,13 @@ const Products = () => {
       }
     };
     fetchProducts();
-    console.log(items);
+
   }, []);
 
+  const handleProductClick = (id, product) => {
+    viewed.addViewed(id, product)    
+    router.push(`/productDetails/${id}`)
+  }
   return (
     <>
       {items.map((product) => {
@@ -44,7 +49,7 @@ const Products = () => {
           <div
             key={product.id}
             className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4"
-            onClick={() => router.push(`/productDetails/${product.id}`)}
+            onClick={() => handleProductClick(product.id, product)}
           >
             <>
               {product.images[0] ? (

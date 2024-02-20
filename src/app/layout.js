@@ -2,8 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import 'flowbite';
-import { Hero } from "@/components/Hero";
 import CartContext from "@/context/CartContext"
+import  ViewedContext  from "@/context/ViewedContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,12 +16,15 @@ export default function RootLayout({ children }) {
     <>
       <html lang="en">
         <body className={inter.className}>
+
           <CartContext>
-            <Navbar />
-            
-            {children}
-            {/* <Footer /> */}
+            <ViewedContext>
+              <Navbar />
+              {children}
+              {/* <Footer /> */}
+            </ViewedContext>
           </CartContext>
+
         </body>
 
       </html>
