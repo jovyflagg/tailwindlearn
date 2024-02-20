@@ -8,53 +8,21 @@ import { useRouter } from "next/navigation";
 import { ViewedContext } from "@/context/ViewedContext";
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
-const Products = () => {
+const RecentlyViewed = () => {
   const router = useRouter();
-  const [items, setItems] = useState([]);
-  const cart = useContext(CartContext);
-  const viewed = useContext(ViewedContext);
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem("views")));
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await stripe.products.list();
-        const productsWithPrices = await Promise.all(
-          response.data.map(async (product) => {
-            const prices = await stripe.prices.list({
-              product: product.id,
-              limit: 1,
-            });
-            const price = prices.data[0]?.unit_amount / 100;
-            return { ...product, price };
-          })
-        );
-        setItems(productsWithPrices);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchProducts();
-
-  }, []);
-
-  const handleProductClick = (id, product) => {
-    viewed.addViewed(id, product)    
-    router.push(`/productDetails/${id}`)
-  }
   return (
     <>
-      {items.map((product) => {
-        const productQuantity = cart.getProductQuantity(product.id);
-
+      {items.map((item) => {         
         return (
           <div
-            key={product.id}
-            className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4"
-            onClick={() => handleProductClick(product.id, product)}
+            key={item.product.id}
+            className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4"            
           >
             <>
-              {product.images[0] ? (
-                <img src={product.images[0]} alt={`${product.name}`} />
+              {item.product?.images[0] ? (
+                <img src={item.product.images[0]} alt={`${item.product.name}`} />
               ) : (
                 <img
                   src="https://placehold.co/320x320/darkblue/orange"
@@ -66,7 +34,7 @@ const Products = () => {
             <div className="px-5 pb-5">
               <a href="#">
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {product.name}
+                  {item.product.name}
                 </h5>
               </a>
               <div className="flex items-center mt-2.5 mb-5">
@@ -123,7 +91,7 @@ const Products = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  ${product.price.toFixed(2)}
+                  ${item.product.price.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -134,11 +102,4 @@ const Products = () => {
   );
 };
 
-export default Products;
-
-// return (
-//   <>
-
-//   </>
-// );
-// }
+export default RecentlyViewed;
