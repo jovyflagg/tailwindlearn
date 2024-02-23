@@ -2,10 +2,10 @@
 import Image from "next/image";
 import React from "react";
 import Stripe from "stripe";
-import { useState, useEffect, useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import { useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { ViewedContext } from "@/context/ViewedContext";
+
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 const RecentlyViewed = () => {

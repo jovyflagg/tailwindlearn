@@ -1,16 +1,18 @@
 "use client"
 
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./productDetailsPage.module.css";
-import { useRouter } from "next/navigation";
 import RecentlyViewed from "@/components/RecentlyViewed";
+import { ViewedContext } from "@/context/ViewedContext";
 
 const ProductDetails = ({ params }) => {
-  const router = useRouter();
-  const { id, image, name, price } = params;
+  const { id } = params;
+  const selected = useContext(ViewedContext);
+  const products = selected.items.find((product) => (product.id === id));
+  
   return (
     <>
-     
+      {JSON.stringify(products.product.name)}
       <div className={styles.container}>
         <div className={styles.topSection}>
           <div className={styles.productImageWrapper}>
@@ -32,10 +34,10 @@ const ProductDetails = ({ params }) => {
               {/* accordion style */}
               <div className={styles.productDescription}>
                 highlights in bullet points
-                <h1>Title </h1>
+                <h1>Title {products.product.name} </h1>
                 <p>Id: {id}</p>
-                <p>Title: {name}</p>
-                <p>Price: {price}</p>
+                {/* <p>Title: {name}</p>
+                <p>Price: {price}</p> */}
               </div>
               <div className={styles.productSpecs}></div>
               <div className={styles.shippingAndReturns}></div>
