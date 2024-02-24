@@ -9,21 +9,33 @@ const ProductDetails = ({ params }) => {
   const { id } = params;
   const selected = useContext(ViewedContext);
   const products = selected.items.find((product) => (product.id === id));
-  
+
   return (
     <>
-      {JSON.stringify(products.product.name)}
+     
       <div className={styles.container}>
         <div className={styles.topSection}>
           <div className={styles.productImageWrapper}>
-            <div className={styles.mainImage}></div>
+            <div className={styles.mainImage}>
+              <img
+                src="https://placehold.co/320x320/darkblue/orange"
+                alt=""
+              />
+
+            </div>
             {/* <div className={styles.carouselImages}></div> */}
           </div>
           <div className={styles.productDetailsWrapper}>
+          Description: {products.product.description}
             <div className={styles.primaryDetailsWrapper}>
-              <div className={styles.title}></div>
+              <div className={styles.title}>
+
+              </div>
               <div className={styles.subtitle}></div>
-              <div className={styles.price}></div>
+              <div className={styles.price}>
+                Price: ${products.product.price}
+
+              </div>
             </div>
             {/* cta stands for call-to-action e.g. add to cart, add to favorites */}
             <div className={styles.cta}>
@@ -34,8 +46,7 @@ const ProductDetails = ({ params }) => {
               {/* accordion style */}
               <div className={styles.productDescription}>
                 highlights in bullet points
-                <h1>Title {products.product.name} </h1>
-                <p>Id: {id}</p>
+                <h1>Product {products.product.name} </h1>
                 {/* <p>Title: {name}</p>
                 <p>Price: {price}</p> */}
               </div>
