@@ -1,7 +1,6 @@
 "use client"
 import { createContext, useState } from "react";
-
-// Here is your application state
+ 
 export const CartContext = createContext({
     items: [],
     getProductQuantity: () => { },
@@ -25,8 +24,7 @@ export function CartProvider({ children }) {
         return quantity;
     }
 
-    function addOneToCart(id, product) {
-
+    function addOneToCart(id, product) {      
         const quantity = getProductQuantity(id);
         if (quantity === 0) { // product is not in cart
             setCartProducts(
@@ -84,7 +82,6 @@ export function CartProvider({ children }) {
     function getTotalCost() {
 
         let totalCost = 0;
-
 
         cartProducts.map((product) => {
             return totalCost += product.application_price * product.quantity;

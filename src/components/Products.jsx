@@ -61,7 +61,7 @@ const Products = () => {
                   alt=""
                 />
               )}
-              {/* width="500" height="500" /> */}
+         
             </>
             <div className="px-5 pb-5">
               <a href="#">

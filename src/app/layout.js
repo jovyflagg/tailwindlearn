@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import 'flowbite';
 import CartContext from "@/context/CartContext"
-import  ViewedContext  from "@/context/ViewedContext";
+import ViewedContext from "@/context/ViewedContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
