@@ -12,6 +12,7 @@ const stripePromise = loadStripe(
 );
 
 const OrderSummary = () => {
+
     let stripePromise;
     const [stripeError, setStripeError] = useState(null);
     const cart = useContext(CartContext);
@@ -24,7 +25,7 @@ const OrderSummary = () => {
     };
 
     const goToCheckoutPage = async () => {
-
+  
         const checkoutOptions = {
             lineItems: cart.items.map(({ price, quantity }) => ({
                 price,
@@ -34,9 +35,11 @@ const OrderSummary = () => {
             successUrl: `${window.location.origin}/success`,
             cancelUrl: `${window.location.origin}/cancel`
         };
-
+        console.log(checkoutOptions)
         const stripe = await getStripe();
+        console.log(stripe)
         const { error } = await stripe.redirectToCheckout(checkoutOptions);
+        console.log(error)
 
         if (error) setStripeError(error.message);
     };
@@ -48,9 +51,7 @@ const OrderSummary = () => {
 
         <div className={styles.links}>
 
-
             <p className="modal-title">Shopping Cart</p>
-
 
             {productsCount > 0 ?
                 <>
@@ -63,14 +64,13 @@ const OrderSummary = () => {
                     <h1 className="total-cost">Total: {cart.getTotalCost()}</h1>
                     <h1 className="total-cost">Total: {cart.getTotalCost().toFixed(2)}</h1>
 
-                    <Button variant="success" onClick={goToCheckoutPage} className="checkout-btn">
+                    <button variant="success" onClick={goToCheckoutPage} className="checkout-btn">
                         Checkout
-                    </Button>
+                    </button>
                 </>
                 :
                 <h1 className="empty-cart-message">Your Cart is Empty!</h1>
             }
-
 
         </div>
     );

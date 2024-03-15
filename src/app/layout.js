@@ -1,9 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 import 'flowbite';
 import CartContext from "@/context/CartContext"
 import ViewedContext from "@/context/ViewedContext";
+import Navigation from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }) {
 
           <CartContext>
             <ViewedContext>
-              <Navbar />
+              <Navigation />
               {children}
               {/* <Footer /> */}
             </ViewedContext>

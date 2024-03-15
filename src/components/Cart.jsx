@@ -6,7 +6,7 @@ import constants from '@/utils/constants';
 function CartProduct({ product }) {
 
     const cart = useContext(CartContext);
-
+  
     return (
         <>
             <h3>{product.name}</h3>

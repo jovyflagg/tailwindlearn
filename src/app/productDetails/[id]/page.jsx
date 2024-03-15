@@ -8,11 +8,10 @@ import Button from "@/components/Button";
 
 const ProductDetails = ({ params }) => {
   const { id } = params;
-  console.log(id)
   const selected = useContext(ViewedContext);
   const cart = useContext(CartContext);
-  const product = selected.items.find((product) => (product.id === id));
-  console.log(product)
+  const items = selected.items.find((product) => (product.id === id));
+  
   return (
     <>
 
@@ -29,29 +28,29 @@ const ProductDetails = ({ params }) => {
             {/* <div className={styles.carouselImages}></div> */}
           </div>
           <div className={styles.productDetailsWrapper}>
-            Description: {product.product.description}
+            Description: {items.product.description}
             <div className={styles.primaryDetailsWrapper}>
               <div className={styles.title}>
 
               </div>
               <div className={styles.subtitle}></div>
               <div className={styles.price}>
-                Price: ${product.product.price}
+                Price: ${items.product.price}
               </div>
             </div>
             {/* cta stands for call-to-action e.g. add to cart, add to favorites */}
             <div className={styles.cta}>
-          
-              <button onClick={() => cart.addOneToCart(id,product)} className="text-black" >Add to cart</button>
+
+              <button onClick={() => cart.addOneToCart(id, items.product)} className="text-black" >Add to cart</button>
               {/* 1-quantity counter, 2-Add to cart button  and/or add to favorites button*/}
             </div>
             <div className={styles.secondaryDetailsWrapper}>
               {/* accordion style */}
               <div className={styles.productDescription}>
                 highlights in bullet points
-                <h1>Product {product.product.name} </h1>
-                 <p>Title: {product.product.name}</p> 
-                <p>Price: {product.product.price}</p>
+                <h1>Product {items.product.name} </h1>
+                <p>Title: {items.product.name}</p>
+                <p>Price: {items.product.price}</p>
               </div>
               <div className={styles.productSpecs}></div>
               <div className={styles.shippingAndReturns}></div>
